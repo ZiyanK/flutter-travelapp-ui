@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui';
 
 class InfoPage extends StatefulWidget {
   final img, country;
@@ -12,19 +13,33 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("images/japan.jpg"),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.6), BlendMode.darken)),
-      ),
-      child: Column(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
-          SizedBox(height: 20.0),
+          Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(widget.img),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+            child: Container(
+              decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+            ),
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, right: 15.0),
+            padding: const EdgeInsets.only(top: 35.0, right: 15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -45,10 +60,10 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                 ),
                 Text(
-                  'JAPAN',
+                  widget.country.toString().toUpperCase(),
                   style: GoogleFonts.montserrat(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.w500,
                     textStyle: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -66,26 +81,6 @@ class _InfoPageState extends State<InfoPage> {
               ],
             ),
           ),
-          SizedBox(height: 25.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text(
-                'Trending Attractions',
-                style: GoogleFonts.montserrat(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                textAlign: TextAlign.left,
-              ),
-              Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              )
-            ],
-          ),
-
         ],
       ),
     );
